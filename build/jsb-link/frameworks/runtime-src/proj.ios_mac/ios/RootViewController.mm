@@ -30,6 +30,8 @@
 
 @implementation RootViewController
 
+@synthesize glView = _glView;
+
 /*
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -43,7 +45,8 @@ return self;
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView {
     // Initialize the CCEAGLView
-    CCEAGLView *eaglView = [CCEAGLView viewWithFrame: [UIScreen mainScreen].bounds
+    cocos2d::GLViewImpl::_pixelFormat = kEAGLColorFormatRGBA8;
+    CCEAGLView *eaglView = [CCEAGLView viewWithFrame: CGRectMake(100, 100, 480, 320) //[UIScreen mainScreen].bounds
                                          pixelFormat: (__bridge NSString *)cocos2d::GLViewImpl::_pixelFormat
                                          depthFormat: cocos2d::GLViewImpl::_depthFormat
                                   preserveBackbuffer: NO
@@ -54,13 +57,30 @@ return self;
     // Enable or disable multiple touches
     [eaglView setMultipleTouchEnabled:YES];
 
-    // Set EAGLView as view of RootViewController
-    self.view = eaglView;
+    UIView* fullScreenView = [[[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds] autorelease];
+
+    UIImage *oneImage = [UIImage imageNamed:@"res/HelloWorld.png"];
+    UIImageView *oneImageView = [[[UIImageView alloc] initWithImage:oneImage] autorelease];
+    oneImageView.frame = [UIScreen mainScreen].bounds;
+    oneImageView.backgroundColor = [UIColor redColor];
+    oneImageView.alpha = 1.0;
+    oneImageView.contentMode = UIViewContentModeTop;
+
+    self.view = fullScreenView;
+    self.glView = eaglView;
+
+    [fullScreenView addSubview:oneImageView];
+    [fullScreenView addSubview:eaglView];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+}
+
+-(void) dealloc {
+    self.glView = nil;
+    [super dealloc];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

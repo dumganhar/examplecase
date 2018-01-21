@@ -27,7 +27,10 @@
 
 
 @interface RootViewController : UIViewController {
-
+    UIView* _glView;
 }
+
+@property (nonatomic, strong) UIView* glView;
+
 - (BOOL)prefersStatusBarHidden;
 @end
