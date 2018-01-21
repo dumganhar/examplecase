@@ -65,3 +65,16 @@ quick_gen_project_*_autogen.sh.meta
 
 creator.d.ts
 .vscode/
+
+# Ignore files build by xcode
+*.mode*v*
+*.pbxuser
+*.xcbkptlist
+*.xcworkspacedata
+*.xcuserstate
+*.xccheckout
+xcschememanagement.plist
+.DS_Store
+._.*
+xcuserdata/
+DerivedData/
